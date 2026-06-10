@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LandFleisch Futterrechner</title>
+  <link rel="stylesheet" href="style.css?v=9">
+</head>
+<body>
+  <main class="container">
+    <div class="version">v9</div>
+
+    <h1>LandFleisch Futterrechner</h1>
+    <p class="intro">Mischfütterung nach Kalorienanteil oder mit fester Futtermenge.</p>
+
+    <section id="datenFehler" class="error hidden">
+      Die Produktdaten konnten nicht geladen werden. Bitte prüfen, ob die Datei <strong>produkte.json</strong> im Hauptordner liegt.
+    </section>
+
+    <section class="card">
+      <h2>Hund</h2>
+      <label for="gewicht">Gewicht des Hundes (kg)</label>
+      <input type="number" id="gewicht" value="20" min="1" step="0.1">
+
+      <label for="aktivitaet">Aktivität</label>
+      <select id="aktivitaet">
+        <option value="95">Normal aktiv</option>
+        <option value="110">Aktiv</option>
+      </select>
+    </section>
+
+    <section class="card">
+      <h2>Rechenmodus</h2>
+      <div class="mode-toggle">
+        <label class="radio-card">
+          <input type="radio" name="rechenmodus" value="prozent" checked>
+          <span>Kalorienanteil</span>
+        </label>
+        <label class="radio-card">
+          <input type="radio" name="rechenmodus" value="festeMenge">
+          <span>Feste Futtermenge</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Mischfütterung</h2>
+      <div class="feed-grid">
+        <div class="feed-box">
+          <h3>Futter 1</h3>
+          <label for="typA">Futterart</label>
+          <select id="typA"></select>
+
+          <label for="linieA">Produktlinie</label>
+          <select id="linieA"></select>
+
+          <label for="produktA">Produkt</label>
+          <select id="produktA"></select>
+
+          <div id="festeMengeBereich" class="fixed-amount hidden">
+            <label for="mengeA">Menge pro Tag</label>
+            <div class="amount-row">
+              <input type="number" id="mengeA" value="100" min="0" step="1">
+              <span>g</span>
+            </div>
+          </div>
+
+          <p id="infoA" class="product-info">-</p>
+        </div>
+
+        <div class="feed-box">
+          <h3>Futter 2</h3>
+          <label for="typB">Futterart</label>
+          <select id="typB"></select>
+
+          <label for="linieB">Produktlinie</label>
+          <select id="linieB"></select>
+
+          <label for="produktB">Produkt</label>
+          <select id="produktB"></select>
+
+          <p id="infoB" class="product-info">-</p>
+        </div>
+      </div>
+
+      <div id="prozentBereich">
+        <label for="anteilA">
+          Kalorienanteil Futter 1:
+          <strong><span id="anteilAnzeige">50</span> %</strong>
+        </label>
+        <input type="range" id="anteilA" min="0" max="100" value="50" step="5">
+        <p class="mix-note">
+          Futter 2 erhält automatisch <strong><span id="anteilBAnzeige">50</span> %</strong> der Tageskalorien.
+        </p>
+      </div>
+
+      <div id="festeMengeHinweis" class="mode-note hidden">
+        Futter 1 wird mit der eingegebenen Grammmenge berechnet. Futter 2 ergänzt den verbleibenden Energiebedarf.
+      </div>
+
+      <button id="berechnenButton" type="button" disabled>Tagesmenge berechnen</button>
+    </section>
+
+    <section id="warnung" class="warning hidden">
+      <h2>Hinweis</h2>
+      <p id="warnungText">-</p>
+    </section>
+
+    <section id="statusWarnung" class="warning hidden">
+      <h2>Futterhinweis</h2>
+      <p id="statusWarnungText">-</p>
+    </section>
+
+    <section class="card result">
+      <h2>Ergebnis</h2>
+
+      <div class="result-main">
+        <p>
+          <span class="label">Energiebedarf</span>
+          <strong><span id="energiebedarf">-</span> kcal/Tag</strong>
+        </p>
+      </div>
+
+      <div class="split">
+        <div>
+          <h3>Futter 1</h3>
+          <p id="produktAName">-</p>
+          <p><strong><span id="grammA">-</span> g/Tag</strong></p>
+          <p><span id="kcalA">-</span> kcal</p>
+        </div>
+        <div>
+          <h3>Futter 2</h3>
+          <p id="produktBName">-</p>
+          <p><strong><span id="grammB">-</span> g/Tag</strong></p>
+          <p><span id="kcalB">-</span> kcal</p>
+        </div>
+      </div>
+
+      <p class="total"><strong>Gesamtmenge:</strong> <span id="gesamtmenge">-</span> g/Tag</p>
+
+      <p class="hint">
+        Die Berechnung dient als Orientierung für die tägliche Fütterungsmenge auf Basis des Energiebedarfs nach NRC/FEDIAF und der hinterlegten Energiegehalte der Futtermittel. Individuelle Faktoren wie Gesundheitszustand, Alter, Kastrationsstatus oder besondere Ernährungsbedürfnisse werden nicht berücksichtigt.
+      </p>
+      <p class="hint">
+        Bei Ergänzungsfuttermitteln wird ausschließlich der Energiebeitrag berücksichtigt; eine vollständige Nährstoffversorgung wird dadurch nicht bewertet.
+      </p>
+    </section>
+  </main>
+
+  <script src="app.js?v=9"></script>
+</body>
+</html>
