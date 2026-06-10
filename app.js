@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=9", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=10", { cache: "no-store" });
     if(!response.ok){ throw new Error("produkte.json konnte nicht geladen werden."); }
     const data = await response.json();
     if(!Array.isArray(data) || data.length === 0){ throw new Error("produkte.json enthält keine Produktliste."); }
@@ -155,8 +155,8 @@ function aktualisiereProduktInfo(seite){
     return;
   }
 
-  const status = produkt.futterstatus || "Alleinfuttermittel";
-  const badgeClass = status === "Ergänzungsfuttermittel" ? "badge-supplement" : "badge-complete";
+  const status = produkt.futterstatus || "Alleinfutter";
+  const badgeClass = status === "Ergänzungsfutter" ? "badge-supplement" : "badge-complete";
   info.innerHTML = `<div class="status-row"><span>${produkt.me_kcal_100g} kcal/100 g · ${produkt.typ} · ${produkt.linie}</span><span class="badge ${badgeClass}">${status}</span></div>`;
 }
 
@@ -172,16 +172,16 @@ function aktualisiereFutterstatusWarnung(){
     return;
   }
 
-  const statusA = produktA.futterstatus || "Alleinfuttermittel";
-  const statusB = produktB.futterstatus || "Alleinfuttermittel";
-  const ergaenzungA = statusA === "Ergänzungsfuttermittel";
-  const ergaenzungB = statusB === "Ergänzungsfuttermittel";
+  const statusA = produktA.futterstatus || "Alleinfutter";
+  const statusB = produktB.futterstatus || "Alleinfutter";
+  const ergaenzungA = statusA === "Ergänzungsfutter";
+  const ergaenzungB = statusB === "Ergänzungsfutter";
 
   if(ergaenzungA && ergaenzungB){
-    text.textContent = "Beide ausgewählten Produkte sind als Ergänzungsfuttermittel gekennzeichnet. Der Rechner berücksichtigt nur den Energiebeitrag, bewertet aber keine vollständige Nährstoffversorgung.";
+    text.textContent = "Beide ausgewählten Produkte sind als Ergänzungsfutter gekennzeichnet. Der Rechner berücksichtigt nur den Energiebeitrag, bewertet aber keine vollständige Nährstoffversorgung.";
     warnung.classList.remove("hidden");
   }else if(ergaenzungA || ergaenzungB){
-    text.textContent = "Mindestens eines der ausgewählten Produkte ist als Ergänzungsfuttermittel gekennzeichnet. Der Rechner berücksichtigt nur den Energiebeitrag dieses Produkts.";
+    text.textContent = "Mindestens eines der ausgewählten Produkte ist als Ergänzungsfutter gekennzeichnet. Der Rechner berücksichtigt nur den Energiebeitrag dieses Produkts.";
     warnung.classList.remove("hidden");
   }else{
     warnung.classList.add("hidden");
