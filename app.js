@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=11", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=12", { cache: "no-store" });
 
     if(!response.ok){
       throw new Error("produkte.json konnte nicht geladen werden.");
@@ -123,9 +123,13 @@ function aktiviereRechner(){
   document.getElementById("berechnenButton").disabled = false;
 }
 
+function getAktiveProdukte(){
+  return produkte.filter(p => p.rechner_aktiv !== false);
+}
+
 function fuelleTypen(seite){
   const select = document.getElementById(felder[seite].typ);
-  const typen = getUniqueSorted(produkte.map(p => p.typ));
+  const typen = getUniqueSorted(getAktiveProdukte().map(p => p.typ));
 
   select.innerHTML = "";
 
@@ -141,7 +145,7 @@ function fuelleLinien(seite){
   const typ = document.getElementById(felder[seite].typ).value;
   const select = document.getElementById(felder[seite].linie);
   const linien = getUniqueSorted(
-    produkte
+    getAktiveProdukte()
       .filter(p => p.typ === typ)
       .map(p => p.linie)
   );
@@ -160,7 +164,7 @@ function fuelleProdukte(seite){
   const typ = document.getElementById(felder[seite].typ).value;
   const linie = document.getElementById(felder[seite].linie).value;
   const select = document.getElementById(felder[seite].produkt);
-  const produktListe = produkte.filter(p => p.typ === typ && p.linie === linie);
+  const produktListe = getAktiveProdukte().filter(p => p.typ === typ && p.linie === linie);
 
   select.innerHTML = "";
 
@@ -178,7 +182,7 @@ function getUniqueSorted(values){
 
 function getProdukt(seite){
   const produktId = document.getElementById(felder[seite].produkt).value;
-  return produkte.find(p => p.id === produktId);
+  return getAktiveProdukte().find(p => p.id === produktId);
 }
 
 function aktualisiereProduktInfo(seite){
