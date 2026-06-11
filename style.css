@@ -1,9 +1,22 @@
+/* V17 clean stylesheet */
+:root{
+  --lf-bg:#f7f4ee;
+  --lf-card:#ffffff;
+  --lf-beige:#e8e3d8;
+  --lf-beige-soft:#f3eee3;
+  --lf-green:#355b3e;
+  --lf-green-dark:#24412c;
+  --lf-text:#2f2b28;
+  --lf-muted:#5e574e;
+  --lf-line:#d8cfbf;
+}
+
 body{
-  font-family: Arial, sans-serif;
-  background:#f7f4ee;
+  font-family:Arial,sans-serif;
+  background:var(--lf-bg);
   margin:0;
   padding:14px;
-  color:#2f2b28;
+  color:var(--lf-text);
   font-size:15px;
 }
 
@@ -14,20 +27,21 @@ body{
 
 .app-header{
   position:relative;
-  background:linear-gradient(135deg,#355b3e,#24412c);
-  color:white;
+  background:var(--lf-card);
+  color:var(--lf-text);
+  border:1px solid var(--lf-line);
   border-radius:16px;
   padding:14px;
   margin-bottom:14px;
-  box-shadow:0 3px 12px rgba(47,43,40,0.18);
+  box-shadow:0 2px 8px rgba(47,43,40,0.08);
   display:grid;
-  grid-template-columns:112px 1fr;
+  grid-template-columns:118px 1fr;
   gap:14px;
   align-items:center;
 }
 
 .logo{
-  width:112px;
+  width:118px;
   max-width:100%;
   display:block;
 }
@@ -36,11 +50,12 @@ body{
   margin:0 0 5px 0;
   font-size:23px;
   line-height:1.12;
+  color:var(--lf-text);
 }
 
 .header-text p{
   margin:0;
-  color:#f3eee3;
+  color:var(--lf-muted);
   font-size:13px;
   line-height:1.35;
 }
@@ -50,8 +65,8 @@ body{
   right:10px;
   top:8px;
   font-size:10px;
-  color:#f3eee3;
-  background:rgba(255,255,255,0.12);
+  color:var(--lf-muted);
+  background:var(--lf-beige-soft);
   padding:3px 7px;
   border-radius:999px;
 }
@@ -60,7 +75,7 @@ body{
 .error,
 .warning,
 .notice{
-  background:white;
+  background:var(--lf-card);
   padding:18px;
   margin-bottom:16px;
   border-radius:14px;
@@ -68,9 +83,9 @@ body{
 }
 
 .notice{
-  background:#f5e6b3;
-  color:#3d2c1f;
-  border:1px solid #d9bd74;
+  background:var(--lf-beige);
+  color:var(--lf-text);
+  border:1px solid var(--lf-line);
   font-size:13px;
   line-height:1.4;
 }
@@ -82,9 +97,9 @@ body{
 }
 
 .warning{
-  background:#f5e6b3;
-  color:#3d2c1f;
-  border:1px solid #d9bd74;
+  background:var(--lf-beige);
+  color:var(--lf-text);
+  border:1px solid var(--lf-line);
 }
 
 .hidden{
@@ -132,9 +147,8 @@ h3{
 }
 
 .bowl-two{
-  color:#355b3e;
+  color:var(--lf-green);
 }
-
 
 label{
   display:block;
@@ -153,7 +167,7 @@ select{
   border-radius:8px;
   font-size:14px;
   background:#fff;
-  color:#2f2b28;
+  color:var(--lf-text);
 }
 
 input:focus,
@@ -165,7 +179,7 @@ select:focus{
 input[type="range"]{
   padding:0;
   cursor:pointer;
-  accent-color:#355b3e;
+  accent-color:var(--lf-green);
 }
 
 button{
@@ -174,14 +188,14 @@ button{
   margin-top:18px;
   border:none;
   border-radius:10px;
-  background:#355b3e;
+  background:var(--lf-green);
   color:white;
   font-size:16px;
   cursor:pointer;
 }
 
 button:hover{
-  background:#24412c;
+  background:var(--lf-green-dark);
 }
 
 button:disabled{
@@ -211,7 +225,7 @@ button:disabled{
 .radio-card input{
   width:auto;
   margin:0;
-  accent-color:#355b3e;
+  accent-color:var(--lf-green);
 }
 
 .feed-grid{
@@ -228,10 +242,10 @@ button:disabled{
 }
 
 .product-info{
-  background:#f3eee3;
+  background:var(--lf-beige-soft);
   border-radius:10px;
   padding:9px;
-  color:#355b3e;
+  color:var(--lf-green);
   font-size:13px;
   min-height:34px;
 }
@@ -253,8 +267,8 @@ button:disabled{
 }
 
 .badge-complete{
-  background:#e8e3d8;
-  color:#2f2b28;
+  background:var(--lf-beige);
+  color:var(--lf-text);
 }
 
 .badge-supplement{
@@ -279,13 +293,13 @@ button:disabled{
 
 .mix-note,
 .mode-note{
-  color:#5e574e;
+  color:var(--lf-muted);
   margin-bottom:0;
   font-size:14px;
 }
 
 .mode-note{
-  background:#f3eee3;
+  background:var(--lf-beige-soft);
   padding:10px;
   border-radius:8px;
   margin-top:14px;
@@ -296,7 +310,7 @@ button:disabled{
 }
 
 .result-main{
-  background:#f3eee3;
+  background:var(--lf-beige-soft);
   padding:12px;
   border-radius:10px;
   margin-bottom:14px;
@@ -304,7 +318,7 @@ button:disabled{
 
 .label{
   display:block;
-  color:#5e574e;
+  color:var(--lf-muted);
   font-size:13px;
 }
 
@@ -338,28 +352,21 @@ button:disabled{
   }
 
   .app-header{
-    grid-template-columns:92px 1fr;
+    grid-template-columns:96px 1fr;
     padding:12px;
   }
 
   .logo{
-  width:112px;
-  max-width:100%;
-  display:block;
-}
+    width:96px;
+  }
 
   .header-text h1{
-  margin:0 0 5px 0;
-  font-size:23px;
-  line-height:1.12;
-}
+    font-size:19px;
+  }
 
   .header-text p{
-  margin:0;
-  color:#f3eee3;
-  font-size:13px;
-  line-height:1.35;
-}
+    font-size:12px;
+  }
 
   h2{
     font-size:20px;
