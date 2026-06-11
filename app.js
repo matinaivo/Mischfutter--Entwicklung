@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=19", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=20", { cache: "no-store" });
 
     if(!response.ok){
       throw new Error("produkte.json konnte nicht geladen werden.");
@@ -333,7 +333,7 @@ function berechneProzent(energiebedarf, produktA, produktB){
   if(status && mengeInput){
     const rest = energiebedarf - kcalA;
     status.className = "energy-status " + (rest >= 0 ? "energy-ok" : "energy-over");
-    status.textContent = "Verbleibende Energie: " + (rest>=0?"+":"") + rest.toFixed(0) + " kcal";
+    status.textContent = "Noch zu decken: " + (rest>=0?"+":"") + rest.toFixed(0) + " kcal";
     if(rest < 0){ mengeInput.classList.add("input-over"); }
     else { mengeInput.classList.remove("input-over"); }
   }
@@ -358,7 +358,7 @@ function berechneFesteMenge(energiebedarf, produktA, produktB){
     const prozent = energiebedarf > 0 ? (ueberschreitung / energiebedarf) * 100 : 0;
 
     zeigeWarnung(
-      `⚠️ Tagesenergiebedarf überschritten. Die gewählte Menge überschreitet bereits den berechneten Tagesenergiebedarf. Bitte reduzieren Sie die Menge oder wählen Sie ein energieärmeres Futtermittel. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %).`
+      `⚠️ Tagesbedarf überschritten. Die gewählte Menge überschreitet bereits den berechneten Tagesenergiebedarf. Bitte reduzieren Sie die Menge oder wählen Sie ein energieärmeres Futtermittel. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %).`
     );
   }
 
