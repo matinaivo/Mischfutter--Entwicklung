@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LandFleisch Futterrechner</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
   <main class="container">
-    <div class="version">v10</div>
+    <div class="version">v11</div>
 
     <h1>LandFleisch Futterrechner</h1>
     <p class="intro">Mischfütterung nach Kalorienanteil oder mit fester Futtermenge.</p>
@@ -18,11 +18,12 @@
     </section>
 
     <section class="card">
-      <h2>Hund</h2>
-      <label for="gewicht">Gewicht des Hundes (kg)</label>
+      <h2><span class="icon">🐕</span> Hund</h2>
+
+      <label for="gewicht"><span class="icon-small">⚖️</span> Gewicht des Hundes (kg)</label>
       <input type="number" id="gewicht" value="20" min="1" step="0.1">
 
-      <label for="aktivitaet">Aktivität</label>
+      <label for="aktivitaet"><span class="icon-small">⚡</span> Aktivität</label>
       <select id="aktivitaet">
         <option value="95">Normal aktiv</option>
         <option value="110">Aktiv</option>
@@ -30,12 +31,14 @@
     </section>
 
     <section class="card">
-      <h2>Rechenmodus</h2>
+      <h2><span class="icon">⚖️</span> Rechenmodus</h2>
+
       <div class="mode-toggle">
         <label class="radio-card">
           <input type="radio" name="rechenmodus" value="prozent" checked>
           <span>Kalorienanteil</span>
         </label>
+
         <label class="radio-card">
           <input type="radio" name="rechenmodus" value="festeMenge">
           <span>Feste Futtermenge</span>
@@ -44,7 +47,8 @@
     </section>
 
     <section class="card">
-      <h2>Mischfütterung</h2>
+      <h2><span class="icon">🥣</span> Mischfütterung</h2>
+
       <div class="feed-grid">
         <div class="feed-box">
           <h3>Futter 1</h3>
@@ -89,6 +93,7 @@
           <strong><span id="anteilAnzeige">50</span> %</strong>
         </label>
         <input type="range" id="anteilA" min="0" max="100" value="50" step="5">
+
         <p class="mix-note">
           Futter 2 erhält automatisch <strong><span id="anteilBAnzeige">50</span> %</strong> der Tageskalorien.
         </p>
@@ -102,17 +107,17 @@
     </section>
 
     <section id="warnung" class="warning hidden">
-      <h2>Hinweis</h2>
+      <h2><span class="icon">⚠️</span> Hinweis</h2>
       <p id="warnungText">-</p>
     </section>
 
     <section id="statusWarnung" class="warning hidden">
-      <h2>Futterhinweis</h2>
+      <h2><span class="icon">⚠️</span> Futterhinweis</h2>
       <p id="statusWarnungText">-</p>
     </section>
 
     <section class="card result">
-      <h2>Ergebnis</h2>
+      <h2><span class="icon">📋</span> Ergebnis</h2>
 
       <div class="result-main">
         <p>
@@ -128,6 +133,7 @@
           <p><strong><span id="grammA">-</span> g/Tag</strong></p>
           <p><span id="kcalA">-</span> kcal</p>
         </div>
+
         <div>
           <h3>Futter 2</h3>
           <p id="produktBName">-</p>
@@ -139,14 +145,11 @@
       <p class="total"><strong>Gesamtmenge:</strong> <span id="gesamtmenge">-</span> g/Tag</p>
 
       <p class="hint">
-        Die Berechnung dient als Orientierung für die tägliche Fütterungsmenge auf Basis des Energiebedarfs nach NRC/FEDIAF und der hinterlegten Energiegehalte der Futtermittel. Individuelle Faktoren wie Gesundheitszustand, Alter, Kastrationsstatus oder besondere Ernährungsbedürfnisse werden nicht berücksichtigt.
-      </p>
-      <p class="hint">
-        Die Berechnung berücksichtigt ausschließlich den Energiebedarf und bewertet keine vollständige Nährstoffversorgung.
+        Die Berechnung dient als Orientierung für die tägliche Fütterungsmenge auf Basis des Energiebedarfs nach NRC/FEDIAF und der hinterlegten Energiegehalte der Futtermittel. Die Berechnung berücksichtigt ausschließlich den Energiebedarf und bewertet keine vollständige Nährstoffversorgung. Individuelle Faktoren wie Gesundheitszustand, Alter, Kastrationsstatus oder besondere Ernährungsbedürfnisse werden nicht berücksichtigt.
       </p>
     </section>
   </main>
 
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>

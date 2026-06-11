@@ -26,13 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ["A", "B"].forEach(seite => {
     document.getElementById(felder[seite].typ).addEventListener("change", () => {
-      fuelleLinien(seite); fuelleProdukte(seite); aktualisiereProduktInfo(seite); aktualisiereFutterstatusWarnung(); berechnenWennMoeglich();
+      fuelleLinien(seite);
+      fuelleProdukte(seite);
+      aktualisiereProduktInfo(seite);
+      aktualisiereFutterstatusWarnung();
+      berechnenWennMoeglich();
     });
+
     document.getElementById(felder[seite].linie).addEventListener("change", () => {
-      fuelleProdukte(seite); aktualisiereProduktInfo(seite); aktualisiereFutterstatusWarnung(); berechnenWennMoeglich();
+      fuelleProdukte(seite);
+      aktualisiereProduktInfo(seite);
+      aktualisiereFutterstatusWarnung();
+      berechnenWennMoeglich();
     });
+
     document.getElementById(felder[seite].produkt).addEventListener("change", () => {
-      aktualisiereProduktInfo(seite); aktualisiereFutterstatusWarnung(); berechnenWennMoeglich();
+      aktualisiereProduktInfo(seite);
+      aktualisiereFutterstatusWarnung();
+      berechnenWennMoeglich();
     });
   });
 
@@ -43,11 +54,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=10", { cache: "no-store" });
-    if(!response.ok){ throw new Error("produkte.json konnte nicht geladen werden."); }
+    const response = await fetch("./produkte.json?v=11", { cache: "no-store" });
+
+    if(!response.ok){
+      throw new Error("produkte.json konnte nicht geladen werden.");
+    }
+
     const data = await response.json();
-    if(!Array.isArray(data) || data.length === 0){ throw new Error("produkte.json enthält keine Produktliste."); }
+
+    if(!Array.isArray(data) || data.length === 0){
+      throw new Error("produkte.json enthält keine Produktliste.");
+    }
+
     validiereProduktdaten(data);
+
     produkte = data;
     initialisiereAuswahl();
     aktiviereRechner();
@@ -77,10 +97,13 @@ function setzeAuswahl(seite, typ, linie, produktId){
   const typSelect = document.getElementById(felder[seite].typ);
   const linieSelect = document.getElementById(felder[seite].linie);
   const produktSelect = document.getElementById(felder[seite].produkt);
+
   typSelect.value = typ;
   fuelleLinien(seite);
+
   linieSelect.value = linie;
   fuelleProdukte(seite);
+
   produktSelect.value = produktId;
   aktualisiereProduktInfo(seite);
 }
@@ -96,13 +119,16 @@ function aktiviereRechner(){
     document.getElementById(felder[seite].linie).disabled = false;
     document.getElementById(felder[seite].produkt).disabled = false;
   });
+
   document.getElementById("berechnenButton").disabled = false;
 }
 
 function fuelleTypen(seite){
   const select = document.getElementById(felder[seite].typ);
   const typen = getUniqueSorted(produkte.map(p => p.typ));
+
   select.innerHTML = "";
+
   typen.forEach(typ => {
     const option = document.createElement("option");
     option.value = typ;
@@ -114,8 +140,14 @@ function fuelleTypen(seite){
 function fuelleLinien(seite){
   const typ = document.getElementById(felder[seite].typ).value;
   const select = document.getElementById(felder[seite].linie);
-  const linien = getUniqueSorted(produkte.filter(p => p.typ === typ).map(p => p.linie));
+  const linien = getUniqueSorted(
+    produkte
+      .filter(p => p.typ === typ)
+      .map(p => p.linie)
+  );
+
   select.innerHTML = "";
+
   linien.forEach(linie => {
     const option = document.createElement("option");
     option.value = linie;
@@ -129,7 +161,9 @@ function fuelleProdukte(seite){
   const linie = document.getElementById(felder[seite].linie).value;
   const select = document.getElementById(felder[seite].produkt);
   const produktListe = produkte.filter(p => p.typ === typ && p.linie === linie);
+
   select.innerHTML = "";
+
   produktListe.forEach(produkt => {
     const option = document.createElement("option");
     option.value = produkt.id;
@@ -150,6 +184,7 @@ function getProdukt(seite){
 function aktualisiereProduktInfo(seite){
   const produkt = getProdukt(seite);
   const info = document.getElementById(felder[seite].info);
+
   if(!produkt){
     info.textContent = "-";
     return;
@@ -157,7 +192,13 @@ function aktualisiereProduktInfo(seite){
 
   const status = produkt.futterstatus || "Alleinfutter";
   const badgeClass = status === "Ergänzungsfutter" ? "badge-supplement" : "badge-complete";
-  info.innerHTML = `<div class="status-row"><span>${produkt.me_kcal_100g} kcal/100 g · ${produkt.typ} · ${produkt.linie}</span><span class="badge ${badgeClass}">${status}</span></div>`;
+
+  info.innerHTML = `
+    <div class="status-row">
+      <span>${produkt.me_kcal_100g} kcal/100 g · ${produkt.typ} · ${produkt.linie}</span>
+      <span class="badge ${badgeClass}">${status}</span>
+    </div>
+  `;
 }
 
 function aktualisiereFutterstatusWarnung(){
@@ -178,10 +219,10 @@ function aktualisiereFutterstatusWarnung(){
   const ergaenzungB = statusB === "Ergänzungsfutter";
 
   if(ergaenzungA && ergaenzungB){
-    text.textContent = "Beide ausgewählten Produkte sind als Ergänzungsfutter gekennzeichnet. Der Rechner berücksichtigt nur den Energiebeitrag, bewertet aber keine vollständige Nährstoffversorgung.";
+    text.textContent = "Beide ausgewählten Produkte sind als Ergänzungsfutter gekennzeichnet und nicht für die alleinige Versorgung des Hundes vorgesehen.";
     warnung.classList.remove("hidden");
   }else if(ergaenzungA || ergaenzungB){
-    text.textContent = "Mindestens eines der ausgewählten Produkte ist als Ergänzungsfutter gekennzeichnet. Der Rechner berücksichtigt nur den Energiebeitrag dieses Produkts.";
+    text.textContent = "Mindestens eines der ausgewählten Produkte ist als Ergänzungsfutter gekennzeichnet und nicht für die alleinige Versorgung des Hundes vorgesehen.";
     warnung.classList.remove("hidden");
   }else{
     warnung.classList.add("hidden");
@@ -208,43 +249,64 @@ function aktualisiereModusAnsicht(){
     festeMengeBereich.classList.add("hidden");
     festeMengeHinweis.classList.add("hidden");
   }
+
   versteckeWarnung();
 }
 
 function aktualisiereAnteil(){
   const anteilA = Number(document.getElementById("anteilA").value);
+  const anteilB = 100 - anteilA;
+
   document.getElementById("anteilAnzeige").textContent = anteilA;
-  document.getElementById("anteilBAnzeige").textContent = 100 - anteilA;
+  document.getElementById("anteilBAnzeige").textContent = anteilB;
 }
 
 function berechnenWennMoeglich(){
-  if(produkte.length > 0){ berechnen(); }
+  if(produkte.length > 0){
+    berechnen();
+  }
 }
 
 function berechnen(){
   const gewicht = Number(document.getElementById("gewicht").value);
   const faktor = Number(document.getElementById("aktivitaet").value);
-  if(!gewicht || gewicht <= 0){ setzeErgebnisZurueck(); return; }
+
+  if(!gewicht || gewicht <= 0){
+    setzeErgebnisZurueck();
+    return;
+  }
 
   const produktA = getProdukt("A");
   const produktB = getProdukt("B");
-  if(!produktA || !produktB){ setzeErgebnisZurueck(); return; }
 
-  const energiebedarf = faktor * Math.pow(gewicht, 0.75);
-  if(getRechenmodus() === "festeMenge"){
+  if(!produktA || !produktB){
+    setzeErgebnisZurueck();
+    return;
+  }
+
+  const metabolischesKG = Math.pow(gewicht, 0.75);
+  const energiebedarf = faktor * metabolischesKG;
+  const modus = getRechenmodus();
+
+  if(modus === "festeMenge"){
     berechneFesteMenge(energiebedarf, produktA, produktB);
   }else{
     berechneProzent(energiebedarf, produktA, produktB);
   }
+
   aktualisiereFutterstatusWarnung();
 }
 
 function berechneProzent(energiebedarf, produktA, produktB){
   const anteilA = Number(document.getElementById("anteilA").value) / 100;
+  const anteilB = 1 - anteilA;
+
   const kcalA = energiebedarf * anteilA;
-  const kcalB = energiebedarf * (1 - anteilA);
+  const kcalB = energiebedarf * anteilB;
+
   const grammA = (kcalA / produktA.me_kcal_100g) * 100;
   const grammB = (kcalB / produktB.me_kcal_100g) * 100;
+
   versteckeWarnung();
   schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB);
 }
@@ -253,6 +315,7 @@ function berechneFesteMenge(energiebedarf, produktA, produktB){
   const grammA = Math.max(0, Number(document.getElementById("mengeA").value) || 0);
   const kcalA = (grammA * produktA.me_kcal_100g) / 100;
   const restKcal = energiebedarf - kcalA;
+
   let grammB = 0;
   let kcalB = 0;
 
@@ -263,20 +326,31 @@ function berechneFesteMenge(energiebedarf, produktA, produktB){
   }else{
     const ueberschreitung = Math.abs(restKcal);
     const prozent = energiebedarf > 0 ? (ueberschreitung / energiebedarf) * 100 : 0;
-    zeigeWarnung(`Die gewählte Menge von Futter 1 deckt oder überschreitet den berechneten Tagesenergiebedarf bereits. Futter 2 wird daher mit 0 g berechnet. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %). Bitte Eingabe prüfen.`);
+
+    zeigeWarnung(
+      `Die gewählte Menge von Futter 1 deckt oder überschreitet den berechneten Tagesenergiebedarf bereits. Futter 2 wird daher mit 0 g berechnet. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %). Bitte Eingabe prüfen.`
+    );
   }
+
   schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB);
 }
 
 function schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB){
+  const gesamt = grammA + grammB;
+
   document.getElementById("energiebedarf").textContent = energiebedarf.toFixed(0);
-  document.getElementById("produktAName").textContent = `${produktA.name} (${produktA.me_kcal_100g} kcal/100 g)`;
-  document.getElementById("produktBName").textContent = `${produktB.name} (${produktB.me_kcal_100g} kcal/100 g)`;
+
+  document.getElementById("produktAName").textContent =
+    `${produktA.name} (${produktA.me_kcal_100g} kcal/100 g)`;
+
+  document.getElementById("produktBName").textContent =
+    `${produktB.name} (${produktB.me_kcal_100g} kcal/100 g)`;
+
   document.getElementById("grammA").textContent = grammA.toFixed(0);
   document.getElementById("grammB").textContent = grammB.toFixed(0);
   document.getElementById("kcalA").textContent = kcalA.toFixed(0);
   document.getElementById("kcalB").textContent = kcalB.toFixed(0);
-  document.getElementById("gesamtmenge").textContent = (grammA + grammB).toFixed(0);
+  document.getElementById("gesamtmenge").textContent = gesamt.toFixed(0);
 }
 
 function zeigeWarnung(text){
