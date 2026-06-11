@@ -43,18 +43,18 @@ h1{
   box-shadow:0 2px 8px rgba(0,0,0,0.10);
 }
 
-.error{
-  background:#fff1f1;
-  color:#8a1f1f;
-  border:1px solid #e0b4b4;
-}
-
 .notice{
   background:#eef7f1;
   color:#245c43;
   border:1px solid #b8dcc8;
   font-size:13px;
   line-height:1.4;
+}
+
+.error{
+  background:#fff1f1;
+  color:#8a1f1f;
+  border:1px solid #e0b4b4;
 }
 
 .warning{
@@ -78,6 +78,9 @@ h2{
 h3{
   margin-top:0;
   font-size:17px;
+  display:flex;
+  align-items:center;
+  gap:5px;
 }
 
 .icon{

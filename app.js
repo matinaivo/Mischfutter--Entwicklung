@@ -1,8 +1,8 @@
 let produkte = [];
 
 const felder = {
-  A: { typ: "typA", linie: "linieA", produkt: "produktA", info: "infoA" },
-  B: { typ: "typB", linie: "linieB", produkt: "produktB", info: "infoB" }
+  A: { typ: "typA", phase: "phaseA", besonderheit: "besonderheitA", linie: "linieA", produkt: "produktA", info: "infoA" },
+  B: { typ: "typB", phase: "phaseB", besonderheit: "besonderheitB", linie: "linieB", produkt: "produktB", info: "infoB" }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,6 +26,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ["A", "B"].forEach(seite => {
     document.getElementById(felder[seite].typ).addEventListener("change", () => {
+      fuellePhasen(seite);
+      fuelleBesonderheiten(seite);
+      fuelleLinien(seite);
+      fuelleProdukte(seite);
+      aktualisiereProduktInfo(seite);
+      aktualisiereFutterstatusWarnung();
+      berechnenWennMoeglich();
+    });
+
+    document.getElementById(felder[seite].phase).addEventListener("change", () => {
+      fuelleBesonderheiten(seite);
+      fuelleLinien(seite);
+      fuelleProdukte(seite);
+      aktualisiereProduktInfo(seite);
+      aktualisiereFutterstatusWarnung();
+      berechnenWennMoeglich();
+    });
+
+    document.getElementById(felder[seite].besonderheit).addEventListener("change", () => {
       fuelleLinien(seite);
       fuelleProdukte(seite);
       aktualisiereProduktInfo(seite);
@@ -54,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=12", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=13", { cache: "no-store" });
 
     if(!response.ok){
       throw new Error("produkte.json konnte nicht geladen werden.");
@@ -81,30 +100,39 @@ async function ladeProduktdaten(){
 
 function validiereProduktdaten(data){
   data.forEach((produkt, index) => {
-    if(!produkt.id || !produkt.name || !produkt.typ || !produkt.linie || typeof produkt.me_kcal_100g !== "number"){
+    if(!produkt.id || !produkt.name || !produkt.typ || !produkt.linie || !produkt.lebensphase || typeof produkt.me_kcal_100g !== "number"){
       throw new Error(`Produktdaten unvollständig bei Eintrag ${index + 1}.`);
     }
   });
 }
 
-function initialisiereAuswahl(){
-  ["A", "B"].forEach(seite => fuelleTypen(seite));
-  setzeAuswahl("A", "Nassfutter", "Classic", "classic_adult_ente_reis");
-  setzeAuswahl("B", "Trockenfutter", "Adult", "trocken_adult_rind_reis");
+function getAktiveProdukte(){
+  return produkte.filter(p => p.rechner_aktiv !== false);
 }
 
-function setzeAuswahl(seite, typ, linie, produktId){
-  const typSelect = document.getElementById(felder[seite].typ);
-  const linieSelect = document.getElementById(felder[seite].linie);
-  const produktSelect = document.getElementById(felder[seite].produkt);
+function initialisiereAuswahl(){
+  ["A", "B"].forEach(seite => {
+    fuelleTypen(seite);
+  });
 
-  typSelect.value = typ;
+  setzeAuswahl("A", "Nassfutter", "Adult", "Standard", "Classic", "classic_adult_ente_reis");
+  setzeAuswahl("B", "Trockenfutter", "Adult", "Standard", "Adult", "trocken_adult_rind_reis");
+}
+
+function setzeAuswahl(seite, typ, phase, besonderheit, linie, produktId){
+  document.getElementById(felder[seite].typ).value = typ;
+  fuellePhasen(seite);
+
+  document.getElementById(felder[seite].phase).value = phase;
+  fuelleBesonderheiten(seite);
+
+  document.getElementById(felder[seite].besonderheit).value = besonderheit;
   fuelleLinien(seite);
 
-  linieSelect.value = linie;
+  document.getElementById(felder[seite].linie).value = linie;
   fuelleProdukte(seite);
 
-  produktSelect.value = produktId;
+  document.getElementById(felder[seite].produkt).value = produktId;
   aktualisiereProduktInfo(seite);
 }
 
@@ -115,16 +143,14 @@ function zeigeDatenFehler(){
 
 function aktiviereRechner(){
   ["A", "B"].forEach(seite => {
-    document.getElementById(felder[seite].typ).disabled = false;
-    document.getElementById(felder[seite].linie).disabled = false;
-    document.getElementById(felder[seite].produkt).disabled = false;
+    Object.values(felder[seite]).forEach(id => {
+      if(id !== felder[seite].info){
+        document.getElementById(id).disabled = false;
+      }
+    });
   });
 
   document.getElementById("berechnenButton").disabled = false;
-}
-
-function getAktiveProdukte(){
-  return produkte.filter(p => p.rechner_aktiv !== false);
 }
 
 function fuelleTypen(seite){
@@ -141,12 +167,57 @@ function fuelleTypen(seite){
   });
 }
 
+function fuellePhasen(seite){
+  const typ = document.getElementById(felder[seite].typ).value;
+  const select = document.getElementById(felder[seite].phase);
+  const phasen = sortierePhasen(getUniqueSorted(getAktiveProdukte().filter(p => p.typ === typ).map(p => p.lebensphase)));
+
+  select.innerHTML = "";
+
+  phasen.forEach(phase => {
+    const option = document.createElement("option");
+    option.value = phase;
+    option.textContent = phase;
+    select.appendChild(option);
+  });
+}
+
+function fuelleBesonderheiten(seite){
+  const typ = document.getElementById(felder[seite].typ).value;
+  const phase = document.getElementById(felder[seite].phase).value;
+  const select = document.getElementById(felder[seite].besonderheit);
+
+  const werte = getUniqueSorted(
+    getAktiveProdukte()
+      .filter(p => p.typ === typ && p.lebensphase === phase)
+      .map(p => p.besonderheit || "Standard")
+  );
+
+  select.innerHTML = "";
+
+  const alle = document.createElement("option");
+  alle.value = "Alle";
+  alle.textContent = "Alle";
+  select.appendChild(alle);
+
+  werte.forEach(wert => {
+    const option = document.createElement("option");
+    option.value = wert;
+    option.textContent = wert;
+    select.appendChild(option);
+  });
+}
+
 function fuelleLinien(seite){
   const typ = document.getElementById(felder[seite].typ).value;
+  const phase = document.getElementById(felder[seite].phase).value;
+  const besonderheit = document.getElementById(felder[seite].besonderheit).value;
   const select = document.getElementById(felder[seite].linie);
+
   const linien = getUniqueSorted(
     getAktiveProdukte()
-      .filter(p => p.typ === typ)
+      .filter(p => p.typ === typ && p.lebensphase === phase)
+      .filter(p => besonderheit === "Alle" || (p.besonderheit || "Standard") === besonderheit)
       .map(p => p.linie)
   );
 
@@ -162,9 +233,14 @@ function fuelleLinien(seite){
 
 function fuelleProdukte(seite){
   const typ = document.getElementById(felder[seite].typ).value;
+  const phase = document.getElementById(felder[seite].phase).value;
+  const besonderheit = document.getElementById(felder[seite].besonderheit).value;
   const linie = document.getElementById(felder[seite].linie).value;
   const select = document.getElementById(felder[seite].produkt);
-  const produktListe = getAktiveProdukte().filter(p => p.typ === typ && p.linie === linie);
+
+  const produktListe = getAktiveProdukte()
+    .filter(p => p.typ === typ && p.lebensphase === phase && p.linie === linie)
+    .filter(p => besonderheit === "Alle" || (p.besonderheit || "Standard") === besonderheit);
 
   select.innerHTML = "";
 
@@ -174,6 +250,11 @@ function fuelleProdukte(seite){
     option.textContent = produkt.name;
     select.appendChild(option);
   });
+}
+
+function sortierePhasen(phasen){
+  const reihenfolge = ["Adult", "Senior", "Junior"];
+  return phasen.sort((a, b) => reihenfolge.indexOf(a) - reihenfolge.indexOf(b));
 }
 
 function getUniqueSorted(values){
@@ -199,7 +280,7 @@ function aktualisiereProduktInfo(seite){
 
   info.innerHTML = `
     <div class="status-row">
-      <span>${produkt.me_kcal_100g} kcal/100 g · ${produkt.typ} · ${produkt.linie}</span>
+      <span>${produkt.me_kcal_100g} kcal/100 g · ${produkt.typ} · ${produkt.lebensphase} · ${produkt.linie}</span>
       <span class="badge ${badgeClass}">${status}</span>
     </div>
   `;
