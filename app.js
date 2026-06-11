@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=20", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=21", { cache: "no-store" });
 
     if(!response.ok){
       throw new Error("produkte.json konnte nicht geladen werden.");
@@ -270,6 +270,7 @@ function aktualisiereModusAnsicht(){
   }
 
   versteckeWarnung();
+  setzeEnergieStatusZurueck();
 }
 
 function aktualisiereAnteil(){
@@ -317,6 +318,7 @@ function berechnen(){
 }
 
 function berechneProzent(energiebedarf, produktA, produktB){
+  setzeEnergieStatusZurueck();
   const anteilA = Number(document.getElementById("anteilA").value) / 100;
   const anteilB = 1 - anteilA;
 
@@ -327,24 +329,56 @@ function berechneProzent(energiebedarf, produktA, produktB){
   const grammB = (kcalB / produktB.me_kcal_100g) * 100;
 
   versteckeWarnung();
-  
+  schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB);
+}
+
+
+function aktualisiereEnergieStatus(restKcal){
   const status = document.getElementById("energieStatus");
   const mengeInput = document.getElementById("mengeA");
-  if(status && mengeInput){
-    const rest = energiebedarf - kcalA;
-    status.className = "energy-status " + (rest >= 0 ? "energy-ok" : "energy-over");
-    status.textContent = "Noch zu decken: " + (rest>=0?"+":"") + rest.toFixed(0) + " kcal";
-    if(rest < 0){ mengeInput.classList.add("input-over"); }
-    else { mengeInput.classList.remove("input-over"); }
+
+  if(!status || !mengeInput){
+    return;
   }
 
-  schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB);
+  if(getRechenmodus() !== "festeMenge"){
+    status.textContent = "Noch zu decken: –";
+    status.className = "energy-status";
+    mengeInput.classList.remove("input-over");
+    return;
+  }
+
+  if(restKcal >= 0){
+    status.className = "energy-status energy-ok";
+    status.innerHTML = `<strong>Noch zu decken:</strong><br>${restKcal.toFixed(0)} kcal/Tag`;
+    mengeInput.classList.remove("input-over");
+  }else{
+    status.className = "energy-status energy-over";
+    status.innerHTML = `<strong>Tagesbedarf überschritten:</strong><br>${Math.abs(restKcal).toFixed(0)} kcal/Tag`;
+    mengeInput.classList.add("input-over");
+  }
+}
+
+function setzeEnergieStatusZurueck(){
+  const status = document.getElementById("energieStatus");
+  const mengeInput = document.getElementById("mengeA");
+
+  if(status){
+    status.textContent = "Noch zu decken: –";
+    status.className = "energy-status";
+  }
+
+  if(mengeInput){
+    mengeInput.classList.remove("input-over");
+  }
 }
 
 function berechneFesteMenge(energiebedarf, produktA, produktB){
   const grammA = Math.max(0, Number(document.getElementById("mengeA").value) || 0);
   const kcalA = (grammA * produktA.me_kcal_100g) / 100;
   const restKcal = energiebedarf - kcalA;
+
+  aktualisiereEnergieStatus(restKcal);
 
   let grammB = 0;
   let kcalB = 0;
@@ -357,9 +391,7 @@ function berechneFesteMenge(energiebedarf, produktA, produktB){
     const ueberschreitung = Math.abs(restKcal);
     const prozent = energiebedarf > 0 ? (ueberschreitung / energiebedarf) * 100 : 0;
 
-    zeigeWarnung(
-      `⚠️ Tagesbedarf überschritten. Die gewählte Menge überschreitet bereits den berechneten Tagesenergiebedarf. Bitte reduzieren Sie die Menge oder wählen Sie ein energieärmeres Futtermittel. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %).`
-    );
+    zeigeWarnung(`⚠️ Tagesbedarf überschritten. Die eingegebene Menge von Futter 1 überschreitet bereits den berechneten Tagesenergiebedarf. Bitte reduzieren Sie die Menge oder wählen Sie ein energieärmeres Futtermittel. Überschreitung: ${ueberschreitung.toFixed(0)} kcal/Tag (${prozent.toFixed(0)} %).`);
   }
 
   schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB);
