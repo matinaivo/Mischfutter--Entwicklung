@@ -4,17 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LandFleisch Futterrechner</title>
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
   <main class="container">
-    <div class="version">v13</div>
-
-    <h1>LandFleisch Futterrechner</h1>
-    <p class="intro">Mischfütterung nach Kalorienanteil oder mit fester Futtermenge.</p>
+    <header class="app-header">
+      <div class="version">v14</div>
+      <img class="logo" src="landfleisch-logo.png" alt="LandFleisch Logo">
+      <div class="header-text">
+        <h1>Futterrechner</h1>
+        <p>Fütterungsmengen einfach berechnen</p>
+      </div>
+    </header>
 
     <section class="notice">
-      <strong>Hinweis:</strong> Dieser Rechner ist aktuell für adulte Hunde und Senioren vorgesehen. Juniorfutter wird vorerst nicht in der Auswahl angezeigt, da der Energiebedarf von Hunden im Wachstum gesondert berechnet werden muss.
+      Geeignet für die Berechnung von Fütterungsmengen bei ausgewachsenen Hunden und Senioren.
     </section>
 
     <section id="datenFehler" class="error hidden">
@@ -60,12 +64,6 @@
           <label for="typA">Futterart</label>
           <select id="typA"></select>
 
-          <label for="phaseA">Lebensphase</label>
-          <select id="phaseA"></select>
-
-          <label for="besonderheitA">Besonderheit</label>
-          <select id="besonderheitA"></select>
-
           <label for="linieA">Produktlinie</label>
           <select id="linieA"></select>
 
@@ -88,12 +86,6 @@
 
           <label for="typB">Futterart</label>
           <select id="typB"></select>
-
-          <label for="phaseB">Lebensphase</label>
-          <select id="phaseB"></select>
-
-          <label for="besonderheitB">Besonderheit</label>
-          <select id="besonderheitB"></select>
 
           <label for="linieB">Produktlinie</label>
           <select id="linieB"></select>
@@ -168,6 +160,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=13"></script>
+  <script src="app.js?v=14"></script>
 </body>
 </html>

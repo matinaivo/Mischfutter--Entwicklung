@@ -1,8 +1,8 @@
 let produkte = [];
 
 const felder = {
-  A: { typ: "typA", phase: "phaseA", besonderheit: "besonderheitA", linie: "linieA", produkt: "produktA", info: "infoA" },
-  B: { typ: "typB", phase: "phaseB", besonderheit: "besonderheitB", linie: "linieB", produkt: "produktB", info: "infoB" }
+  A: { typ: "typA", linie: "linieA", produkt: "produktA", info: "infoA" },
+  B: { typ: "typB", linie: "linieB", produkt: "produktB", info: "infoB" }
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,25 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ["A", "B"].forEach(seite => {
     document.getElementById(felder[seite].typ).addEventListener("change", () => {
-      fuellePhasen(seite);
-      fuelleBesonderheiten(seite);
-      fuelleLinien(seite);
-      fuelleProdukte(seite);
-      aktualisiereProduktInfo(seite);
-      aktualisiereFutterstatusWarnung();
-      berechnenWennMoeglich();
-    });
-
-    document.getElementById(felder[seite].phase).addEventListener("change", () => {
-      fuelleBesonderheiten(seite);
-      fuelleLinien(seite);
-      fuelleProdukte(seite);
-      aktualisiereProduktInfo(seite);
-      aktualisiereFutterstatusWarnung();
-      berechnenWennMoeglich();
-    });
-
-    document.getElementById(felder[seite].besonderheit).addEventListener("change", () => {
       fuelleLinien(seite);
       fuelleProdukte(seite);
       aktualisiereProduktInfo(seite);
@@ -73,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=13", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=14", { cache: "no-store" });
 
     if(!response.ok){
       throw new Error("produkte.json konnte nicht geladen werden.");
@@ -100,7 +81,7 @@ async function ladeProduktdaten(){
 
 function validiereProduktdaten(data){
   data.forEach((produkt, index) => {
-    if(!produkt.id || !produkt.name || !produkt.typ || !produkt.linie || !produkt.lebensphase || typeof produkt.me_kcal_100g !== "number"){
+    if(!produkt.id || !produkt.name || !produkt.typ || !produkt.ui_linie || typeof produkt.me_kcal_100g !== "number"){
       throw new Error(`Produktdaten unvollständig bei Eintrag ${index + 1}.`);
     }
   });
@@ -115,18 +96,12 @@ function initialisiereAuswahl(){
     fuelleTypen(seite);
   });
 
-  setzeAuswahl("A", "Nassfutter", "Adult", "Standard", "Classic", "classic_adult_ente_reis");
-  setzeAuswahl("B", "Trockenfutter", "Adult", "Standard", "Adult", "trocken_adult_rind_reis");
+  setzeAuswahl("A", "Nassfutter", "Classic", "classic_adult_ente_reis");
+  setzeAuswahl("B", "Trockenfutter", "Adult", "trocken_adult_rind_reis");
 }
 
-function setzeAuswahl(seite, typ, phase, besonderheit, linie, produktId){
+function setzeAuswahl(seite, typ, linie, produktId){
   document.getElementById(felder[seite].typ).value = typ;
-  fuellePhasen(seite);
-
-  document.getElementById(felder[seite].phase).value = phase;
-  fuelleBesonderheiten(seite);
-
-  document.getElementById(felder[seite].besonderheit).value = besonderheit;
   fuelleLinien(seite);
 
   document.getElementById(felder[seite].linie).value = linie;
@@ -143,11 +118,9 @@ function zeigeDatenFehler(){
 
 function aktiviereRechner(){
   ["A", "B"].forEach(seite => {
-    Object.values(felder[seite]).forEach(id => {
-      if(id !== felder[seite].info){
-        document.getElementById(id).disabled = false;
-      }
-    });
+    document.getElementById(felder[seite].typ).disabled = false;
+    document.getElementById(felder[seite].linie).disabled = false;
+    document.getElementById(felder[seite].produkt).disabled = false;
   });
 
   document.getElementById("berechnenButton").disabled = false;
@@ -167,59 +140,14 @@ function fuelleTypen(seite){
   });
 }
 
-function fuellePhasen(seite){
-  const typ = document.getElementById(felder[seite].typ).value;
-  const select = document.getElementById(felder[seite].phase);
-  const phasen = sortierePhasen(getUniqueSorted(getAktiveProdukte().filter(p => p.typ === typ).map(p => p.lebensphase)));
-
-  select.innerHTML = "";
-
-  phasen.forEach(phase => {
-    const option = document.createElement("option");
-    option.value = phase;
-    option.textContent = phase;
-    select.appendChild(option);
-  });
-}
-
-function fuelleBesonderheiten(seite){
-  const typ = document.getElementById(felder[seite].typ).value;
-  const phase = document.getElementById(felder[seite].phase).value;
-  const select = document.getElementById(felder[seite].besonderheit);
-
-  const werte = getUniqueSorted(
-    getAktiveProdukte()
-      .filter(p => p.typ === typ && p.lebensphase === phase)
-      .map(p => p.besonderheit || "Standard")
-  );
-
-  select.innerHTML = "";
-
-  const alle = document.createElement("option");
-  alle.value = "Alle";
-  alle.textContent = "Alle";
-  select.appendChild(alle);
-
-  werte.forEach(wert => {
-    const option = document.createElement("option");
-    option.value = wert;
-    option.textContent = wert;
-    select.appendChild(option);
-  });
-}
-
 function fuelleLinien(seite){
   const typ = document.getElementById(felder[seite].typ).value;
-  const phase = document.getElementById(felder[seite].phase).value;
-  const besonderheit = document.getElementById(felder[seite].besonderheit).value;
   const select = document.getElementById(felder[seite].linie);
-
-  const linien = getUniqueSorted(
+  const linien = sortiereLinien(getUniqueSorted(
     getAktiveProdukte()
-      .filter(p => p.typ === typ && p.lebensphase === phase)
-      .filter(p => besonderheit === "Alle" || (p.besonderheit || "Standard") === besonderheit)
-      .map(p => p.linie)
-  );
+      .filter(p => p.typ === typ)
+      .map(p => p.ui_linie)
+  ));
 
   select.innerHTML = "";
 
@@ -233,14 +161,11 @@ function fuelleLinien(seite){
 
 function fuelleProdukte(seite){
   const typ = document.getElementById(felder[seite].typ).value;
-  const phase = document.getElementById(felder[seite].phase).value;
-  const besonderheit = document.getElementById(felder[seite].besonderheit).value;
   const linie = document.getElementById(felder[seite].linie).value;
   const select = document.getElementById(felder[seite].produkt);
 
   const produktListe = getAktiveProdukte()
-    .filter(p => p.typ === typ && p.lebensphase === phase && p.linie === linie)
-    .filter(p => besonderheit === "Alle" || (p.besonderheit || "Standard") === besonderheit);
+    .filter(p => p.typ === typ && p.ui_linie === linie);
 
   select.innerHTML = "";
 
@@ -252,9 +177,18 @@ function fuelleProdukte(seite){
   });
 }
 
-function sortierePhasen(phasen){
-  const reihenfolge = ["Adult", "Senior", "Junior"];
-  return phasen.sort((a, b) => reihenfolge.indexOf(a) - reihenfolge.indexOf(b));
+function sortiereLinien(linien){
+  const reihenfolge = ["Classic", "Extra mager", "Senior", "Hypoallergen", "Saison", "Adult", "Softbrocken", "Kraftbrocken"];
+  return linien.sort((a, b) => {
+    const ia = reihenfolge.indexOf(a);
+    const ib = reihenfolge.indexOf(b);
+    if(ia === -1 && ib === -1){
+      return a.localeCompare(b, "de");
+    }
+    if(ia === -1) return 1;
+    if(ib === -1) return -1;
+    return ia - ib;
+  });
 }
 
 function getUniqueSorted(values){
@@ -280,7 +214,7 @@ function aktualisiereProduktInfo(seite){
 
   info.innerHTML = `
     <div class="status-row">
-      <span>${produkt.me_kcal_100g} kcal/100 g · ${produkt.typ} · ${produkt.lebensphase} · ${produkt.linie}</span>
+      <span>${produkt.me_kcal_100g} kcal/100 g</span>
       <span class="badge ${badgeClass}">${status}</span>
     </div>
   `;

@@ -21,7 +21,8 @@
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": false,
     "rechner_hinweis": "Juniorfutter ist im aktuellen Rechner ausgeblendet, da der Energiebedarf von Hunden im Wachstum gesondert berechnet werden muss.",
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_junior_pute",
@@ -45,7 +46,8 @@
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": false,
     "rechner_hinweis": "Juniorfutter ist im aktuellen Rechner ausgeblendet, da der Energiebedarf von Hunden im Wachstum gesondert berechnet werden muss.",
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_senior_gefluegel_reis_paprika",
@@ -68,7 +70,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Senior"
   },
   {
     "id": "classic_senior_rind_reis_kartoffeln",
@@ -91,7 +94,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Senior"
   },
   {
     "id": "classic_adult_ente_reis",
@@ -114,7 +118,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_adult_rinderpansen_reis",
@@ -137,7 +142,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_adult_gefluegelherzen_seelachs",
@@ -160,7 +166,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_adult_ente_lamm_kartoffeln",
@@ -183,7 +190,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_adult_gefluegel_lachs",
@@ -206,7 +214,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_adult_gefluegel_reis_extra_mager",
@@ -229,7 +238,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Extra mager"
+    "besonderheit": "Extra mager",
+    "ui_linie": "Extra mager"
   },
   {
     "id": "classic_adult_rinderherzen_nudeln",
@@ -252,7 +262,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_adult_rinderherzen_reis",
@@ -275,7 +286,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Classic"
   },
   {
     "id": "classic_saison_rinderherzen_reis_wildapfel",
@@ -298,7 +310,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Saison"
   },
   {
     "id": "classic_adult_rind_reis_extra_mager",
@@ -321,7 +334,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Extra mager"
+    "besonderheit": "Extra mager",
+    "ui_linie": "Extra mager"
   },
   {
     "id": "classic_saison_ente_lamm_kartoffeln_wildapfel",
@@ -344,7 +358,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Saison"
   },
   {
     "id": "hypoallergen_adult_pferd",
@@ -367,7 +382,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Hypoallergen"
   },
   {
     "id": "hypoallergen_adult_ziege",
@@ -390,7 +406,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Hypoallergen"
   },
   {
     "id": "hypoallergen_adult_kamel",
@@ -413,7 +430,8 @@
     "datenquelle": "LandFleisch Markenwelt Broschüre Hunde PDF",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Hypoallergen"
   },
   {
     "id": "trocken_adult_rind_reis",
@@ -435,7 +453,8 @@
     "datenquelle": "LandFleisch Produktseite",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Adult"
   },
   {
     "id": "trocken_adult_gefluegel_reis",
@@ -457,7 +476,8 @@
     "datenquelle": "LandFleisch Produktseite",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Adult"
   },
   {
     "id": "trocken_senior_gefluegel_reis",
@@ -479,7 +499,8 @@
     "datenquelle": "LandFleisch Produktseite",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Senior"
   },
   {
     "id": "trocken_junior_gefluegel_reis",
@@ -502,7 +523,8 @@
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": false,
     "rechner_hinweis": "Juniorfutter ist im aktuellen Rechner ausgeblendet, da der Energiebedarf von Hunden im Wachstum gesondert berechnet werden muss.",
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Junior"
   },
   {
     "id": "softbrocken_huhn",
@@ -525,7 +547,8 @@
     "datenquelle": "LandFleisch Produktseite",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Softbrocken"
   },
   {
     "id": "kraftbrocken",
@@ -548,6 +571,7 @@
     "datenquelle": "LandFleisch Produktseite, Feuchtigkeit geschätzt",
     "futterstatus": "Alleinfutter",
     "rechner_aktiv": true,
-    "besonderheit": "Standard"
+    "besonderheit": "Standard",
+    "ui_linie": "Kraftbrocken"
   }
 ]
