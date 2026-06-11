@@ -17,33 +17,32 @@ body{
   background:linear-gradient(135deg,#355b3e,#24412c);
   color:white;
   border-radius:16px;
-  padding:16px;
+  padding:14px;
   margin-bottom:14px;
   box-shadow:0 3px 12px rgba(47,43,40,0.18);
   display:grid;
-  grid-template-columns:118px 1fr;
+  grid-template-columns:112px 1fr;
   gap:14px;
   align-items:center;
 }
 
 .logo{
-  width:118px;
+  width:112px;
   max-width:100%;
-  background:#e8e3d8;
-  border-radius:999px;
-  padding:4px;
+  display:block;
 }
 
 .header-text h1{
-  margin:0 0 4px 0;
-  font-size:28px;
-  line-height:1.1;
+  margin:0 0 5px 0;
+  font-size:23px;
+  line-height:1.12;
 }
 
 .header-text p{
   margin:0;
   color:#f3eee3;
-  font-size:14px;
+  font-size:13px;
+  line-height:1.35;
 }
 
 .version{
@@ -117,6 +116,25 @@ h3{
   font-size:14px;
   margin-right:3px;
 }
+
+.bowl-icon{
+  width:20px;
+  height:20px;
+  display:inline-block;
+  flex:0 0 20px;
+  background-color:currentColor;
+  -webkit-mask:url("napf-icon.svg") center / contain no-repeat;
+  mask:url("napf-icon.svg") center / contain no-repeat;
+}
+
+.bowl-one{
+  color:#b4976b;
+}
+
+.bowl-two{
+  color:#355b3e;
+}
+
 
 label{
   display:block;
@@ -321,20 +339,27 @@ button:disabled{
 
   .app-header{
     grid-template-columns:92px 1fr;
-    padding:14px;
+    padding:12px;
   }
 
   .logo{
-    width:92px;
-  }
+  width:112px;
+  max-width:100%;
+  display:block;
+}
 
   .header-text h1{
-    font-size:24px;
-  }
+  margin:0 0 5px 0;
+  font-size:23px;
+  line-height:1.12;
+}
 
   .header-text p{
-    font-size:13px;
-  }
+  margin:0;
+  color:#f3eee3;
+  font-size:13px;
+  line-height:1.35;
+}
 
   h2{
     font-size:20px;

@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LandFleisch Futterrechner</title>
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
   <main class="container">
     <header class="app-header">
-      <div class="version">v14</div>
+      <div class="version">v15</div>
       <img class="logo" src="landfleisch-logo.png" alt="LandFleisch Logo">
       <div class="header-text">
-        <h1>Futterrechner</h1>
-        <p>Fütterungsmengen einfach berechnen</p>
+        <h1>LandFleisch Mischfütterungs-Rechner</h1>
+        <p>Die optimale Kombination aus Nass- und Trockenfutter berechnen.</p>
       </div>
     </header>
 
@@ -55,11 +55,11 @@
     </section>
 
     <section class="card">
-      <h2><span class="icon">🥣</span> Mischfütterung</h2>
+      <h2><span class="icon">⚖️</span> Mischfütterung</h2>
 
       <div class="feed-grid">
         <div class="feed-box">
-          <h3><span class="icon-small">🥫</span> Futter 1</h3>
+          <h3><span class="bowl-icon bowl-one" aria-hidden="true"></span> Futter 1</h3>
 
           <label for="typA">Futterart</label>
           <select id="typA"></select>
@@ -82,7 +82,7 @@
         </div>
 
         <div class="feed-box">
-          <h3><span class="icon-small">🍽️</span> Futter 2</h3>
+          <h3><span class="bowl-icon bowl-two" aria-hidden="true"></span> Futter 2</h3>
 
           <label for="typB">Futterart</label>
           <select id="typB"></select>
@@ -138,14 +138,14 @@
 
       <div class="split">
         <div>
-          <h3><span class="icon-small">🥫</span> Futter 1</h3>
+          <h3><span class="bowl-icon bowl-one" aria-hidden="true"></span> Futter 1</h3>
           <p id="produktAName">-</p>
           <p><strong><span id="grammA">-</span> g/Tag</strong></p>
           <p><span id="kcalA">-</span> kcal</p>
         </div>
 
         <div>
-          <h3><span class="icon-small">🍽️</span> Futter 2</h3>
+          <h3><span class="bowl-icon bowl-two" aria-hidden="true"></span> Futter 2</h3>
           <p id="produktBName">-</p>
           <p><strong><span id="grammB">-</span> g/Tag</strong></p>
           <p><span id="kcalB">-</span> kcal</p>
@@ -160,6 +160,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=14"></script>
+  <script src="app.js?v=15"></script>
 </body>
 </html>
