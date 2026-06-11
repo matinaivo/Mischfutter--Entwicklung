@@ -406,3 +406,13 @@ button:disabled{
     grid-template-columns:1fr;
   }
 }
+.energy-status{
+ margin-top:8px;
+ padding:8px 10px;
+ border-radius:8px;
+ background:#f3eee3;
+ font-size:13px;
+}
+.energy-ok{background:#e7f4e7;color:#245a24;}
+.energy-over{background:#fdeaea;color:#a12626;font-weight:bold;}
+.input-over{border:2px solid #c33 !important;}

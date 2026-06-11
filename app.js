@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function ladeProduktdaten(){
   try{
-    const response = await fetch("./produkte.json?v=18", { cache: "no-store" });
+    const response = await fetch("./produkte.json?v=19", { cache: "no-store" });
 
     if(!response.ok){
       throw new Error("produkte.json konnte nicht geladen werden.");
@@ -327,6 +327,17 @@ function berechneProzent(energiebedarf, produktA, produktB){
   const grammB = (kcalB / produktB.me_kcal_100g) * 100;
 
   versteckeWarnung();
+  
+  const status = document.getElementById("energieStatus");
+  const mengeInput = document.getElementById("mengeA");
+  if(status && mengeInput){
+    const rest = energiebedarf - kcalA;
+    status.className = "energy-status " + (rest >= 0 ? "energy-ok" : "energy-over");
+    status.textContent = "Verbleibende Energie: " + (rest>=0?"+":"") + rest.toFixed(0) + " kcal";
+    if(rest < 0){ mengeInput.classList.add("input-over"); }
+    else { mengeInput.classList.remove("input-over"); }
+  }
+
   schreibeErgebnis(energiebedarf, produktA, produktB, grammA, grammB, kcalA, kcalB);
 }
 
@@ -347,7 +358,7 @@ function berechneFesteMenge(energiebedarf, produktA, produktB){
     const prozent = energiebedarf > 0 ? (ueberschreitung / energiebedarf) * 100 : 0;
 
     zeigeWarnung(
-      `Die gewählte Menge von Futter 1 deckt oder überschreitet den berechneten Tagesenergiebedarf bereits. Futter 2 wird daher mit 0 g berechnet. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %). Bitte Eingabe prüfen.`
+      `⚠️ Tagesenergiebedarf überschritten. Die gewählte Menge überschreitet bereits den berechneten Tagesenergiebedarf. Bitte reduzieren Sie die Menge oder wählen Sie ein energieärmeres Futtermittel. Überschreitung: ${ueberschreitung.toFixed(0)} kcal (${prozent.toFixed(0)} %).`
     );
   }
 
